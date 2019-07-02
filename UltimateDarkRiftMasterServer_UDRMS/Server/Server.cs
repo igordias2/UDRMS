@@ -90,6 +90,7 @@ namespace UltimateDarkRiftMasterServer_UDRMS
 
             new Thread(new ThreadStart(ConsoleLoop)).Start();
 
+            //server.PluginManager.GetPluginByType<Lobby_Plugin>().GetLobbysPerPage(5);
             while (true)
             {
                 server.DispatcherWaitHandle.WaitOne();
