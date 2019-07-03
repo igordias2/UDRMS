@@ -14,6 +14,7 @@ namespace UDRMS_Server_Plugin
         public static readonly ushort connectLobbyMatch = 3;
         public static readonly ushort createLobbyMatch = 4;
         public static readonly ushort refreshLobbyMatchs = 5;
+        public static readonly ushort getLobbyMatchInfo = 6;
 
     }
 }

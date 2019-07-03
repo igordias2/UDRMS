@@ -108,9 +108,34 @@ namespace UDRMS_Server_Plugin
                                 e.Client.SendMessage(m, SendMode.Reliable);
                         }
                     }
+                    if (message.Tag == UDRMS_Tags.getLobbyMatchInfo)
+                    {
+                        Lobby_Player lobby_Player = players[e.Client];
+
+                        if (lobby_Player.getCurrentMatch() != null)
+                        {
+                            //connect to match
+                            Lobby_Match.SendToPlayerLobbyMatchInformation(lobby_Player);
+                        }
+                        else
+                        {
+                            //Send Player to Lobby
+                        }
+                    }
                 }
             }
         }
+
+        //private bool playerIsOnAMatch(Lobby_Player lobby_Player)
+        //{
+        //    foreach (var item in matchs.Values)
+        //    {
+        //        if (item.matchPlayers.Contains(lobby_Player))
+        //            return true;
+        //    }
+        //    return false;
+        //}
+
         void CreateMatch(Lobby_Player matchOwner, ushort maxPlayersInMatch)
         {
             matchsCount++;
