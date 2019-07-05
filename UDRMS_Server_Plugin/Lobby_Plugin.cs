@@ -30,11 +30,9 @@ namespace UDRMS_Server_Plugin
             lobbyPluginInstance = this;
             ClientManager.ClientConnected += ClientConnected;
             ClientManager.ClientDisconnected += ClientManager_ClientDisconnected;
-
         }
         private void ClientConnected(object sender, ClientConnectedEventArgs e)
         {
-
             e.Client.MessageReceived += MessageReceived;
             Lobby_Player lP = new Lobby_Player(e.Client);
             players.Add(e.Client, lP);
@@ -109,7 +107,7 @@ namespace UDRMS_Server_Plugin
                         }
                     }
                     if (message.Tag == UDRMS_Tags.getLobbyMatchInfo)
-                    {
+                    {   
                         Lobby_Player lobby_Player = players[e.Client];
 
                         if (lobby_Player.getCurrentMatch() != null)

@@ -93,7 +93,7 @@ namespace UDRMS_Server_Plugin
                     w.Write(item.client.ID);
                     w.Write(match.matchPlayers[item]);
                 }
-                using (Message m = Message.Create(UDRMS_Tags.refreshLobbyMatchs, w))
+                using (Message m = Message.Create(UDRMS_Tags.getLobbyMatchInfo, w))
                     lobby_Player.client.SendMessage(m, SendMode.Reliable);
             }
         }

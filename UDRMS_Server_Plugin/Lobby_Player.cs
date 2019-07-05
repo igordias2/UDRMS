@@ -17,8 +17,6 @@ namespace UDRMS_Server_Plugin
         {
             this.client = client;
         }
-
-
         public void AssignMatch(Lobby_Match lobby_Match)
         {
             this.currentMatch = lobby_Match;
