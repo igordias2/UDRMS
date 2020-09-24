@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using DarkRift;
 using DarkRift.Server;
 
+//TODO: Client Disconnection
+//TODO: Client Connection -> Login / Password
+
+
 namespace UDRMS_Server_Plugin
 {
     internal class Lobby_Plugin : Plugin
@@ -14,10 +18,10 @@ namespace UDRMS_Server_Plugin
         public static Lobby_Plugin lobbyPluginInstance;
 
         Dictionary<IClient, Lobby_Player> players = new Dictionary<IClient, Lobby_Player>();
-
         Dictionary<ushort, Lobby_Match> matchs = new Dictionary<ushort, Lobby_Match>();
+
         ushort matchsCount = 0;
-        ushort maxPlayers = 4;
+        ushort maxPlayersPerMatch = 9;
 
         ushort matchsPerPageToSendToPlayer = 10;
 
@@ -43,7 +47,7 @@ namespace UDRMS_Server_Plugin
         }
         private void ClientManager_ClientDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
-
+            
         }
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
@@ -53,28 +57,7 @@ namespace UDRMS_Server_Plugin
                 {
                     if (message.Tag == UDRMS_Tags.getLobbyMatchs)
                     {
-                        ushort page = r.ReadUInt16();
-                        List<Lobby_Match> m = GetLobbysPerPage(page);
-
-                        if (m.Count == 0)
-                        {
-                            using (Message mes = Message.CreateEmpty(UDRMS_Tags.getLobbyMatchs))
-                                e.Client.SendMessage(mes, SendMode.Reliable);
-
-                            return;
-                        }
-
-                        using (DarkRiftWriter w = DarkRiftWriter.Create())
-                        {
-                            foreach (Lobby_Match match in m)
-                            {
-                                w.Write(match.matchID);
-                                w.Write(match.matchOwner.client.ID);
-                                w.Write((ushort)match.matchPlayers.Count);
-                            }
-                            using (Message mes = Message.Create(UDRMS_Tags.getLobbyMatchs, w))
-                                e.Client.SendMessage(mes, SendMode.Reliable);
-                        }
+                        GetLobbyRequestAndSend(e, r);
                     }
                     if (message.Tag == UDRMS_Tags.connectLobbyMatch)
                     {
@@ -90,11 +73,11 @@ namespace UDRMS_Server_Plugin
                         {
                             if (match.matchOwner == players[e.Client])
                             {
-                                //Destroy Match
+                                //TODO: With Host is Already created a Match Destroy Current Match
                                 return;
                             }
                         }
-                        CreateMatch(players[e.Client], maxPlayers);
+                        CreateMatch(players[e.Client], maxPlayersPerMatch);
                     }
                     if (message.Tag == UDRMS_Tags.refreshLobbyMatchs)
                     {
@@ -112,15 +95,39 @@ namespace UDRMS_Server_Plugin
 
                         if (lobby_Player.getCurrentMatch() != null)
                         {
-                            //connect to match
+                            //TODO: connect to match
                             Lobby_Match.SendToPlayerLobbyMatchInformation(lobby_Player);
                         }
                         else
                         {
-                            //Send Player to Lobby
+                            //TODO: Send Player to Lobby
                         }
                     }
                 }
+            }
+        }
+
+        private void GetLobbyRequestAndSend(MessageReceivedEventArgs e, DarkRiftReader r)
+        {
+            ushort page = r.ReadUInt16();
+            List<Lobby_Match> m = GetLobbysPerPage(page);
+            if (m.Count == 0)
+            {
+                using (Message mes = Message.CreateEmpty(UDRMS_Tags.getLobbyMatchs))
+                    e.Client.SendMessage(mes, SendMode.Reliable);
+
+                return;
+            }
+            using (DarkRiftWriter w = DarkRiftWriter.Create())
+            {
+                foreach (Lobby_Match match in m)
+                {
+                    w.Write(match.matchID);
+                    w.Write(match.matchOwner.client.ID);
+                    w.Write((ushort)match.matchPlayers.Count);
+                }
+                using (Message mes = Message.Create(UDRMS_Tags.getLobbyMatchs, w))
+                    e.Client.SendMessage(mes, SendMode.Reliable);
             }
         }
 

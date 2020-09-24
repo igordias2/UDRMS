@@ -6,6 +6,7 @@ using DarkRift;
 
 namespace UDRMS_Server_Plugin
 {
+    //TODO: Remove from Current Match
     internal class Lobby_Match
     {
         public ushort matchID;
@@ -32,24 +33,28 @@ namespace UDRMS_Server_Plugin
             playerToAdd.AssignMatch(this);
             return true;
         }
-        public void RemovePlayerFromMatch(Lobby_Player playerToRemove)
+        public void RemovePlayerFromMatch(Lobby_Player playerToRemove, bool finishedMatch = false)
         {
+            this.matchPlayers.Remove(playerToRemove);
+            
+            //TODO: Dont overflow with change host
+
             if(matchOwner == playerToRemove)
             {
-                //Destroy Match or Change Owner
+                //TODO: Destroy Match or Change Owner
             }
             if (matchPlayers.Count <= 0)
             {
-                //Destroy Match
+                //TODO: Destroy Match
             }
-            this.matchPlayers.Remove(playerToRemove);
+
         }
 
         public void FinishMatch(Lobby_Player matchWinner)
         {
             foreach (Lobby_Player player in matchPlayers.Keys)
             {
-                player.AssignMatch(null);
+                RemovePlayerFromMatch(player, true);
             }
             //TODO: Set Match Winner
         }

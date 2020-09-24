@@ -9,7 +9,6 @@ namespace UDRMS_Server_Plugin
     internal static class UDRMS_Tags
     {
         public static readonly ushort connectedToMS = 0;
-
         public static readonly ushort getLobbyMatchs = 2;
         public static readonly ushort connectLobbyMatch = 3;
         public static readonly ushort createLobbyMatch = 4;
