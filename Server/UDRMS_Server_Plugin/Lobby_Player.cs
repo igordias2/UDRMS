@@ -10,7 +10,7 @@ namespace UDRMS_Server_Plugin
     internal class Lobby_Player
     {
         public IClient client;
-
+        public string playerName;
         Lobby_Match currentMatch;
         
         public Lobby_Player(IClient client)

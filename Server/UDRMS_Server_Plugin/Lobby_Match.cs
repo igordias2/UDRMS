@@ -95,8 +95,10 @@ namespace UDRMS_Server_Plugin
             {
                 foreach (var item in match.matchPlayers.Keys)
                 {
-                    w.Write(item.client.ID);
-                    w.Write(match.matchPlayers[item]);
+                    
+                    w.Write(item.client.ID);            //ID do Player
+                    w.Write(item)
+                    w.Write(match.matchPlayers[item]);  //Status (Ready)
                 }
                 using (Message m = Message.Create(UDRMS_Tags.getLobbyMatchInfo, w))
                     lobby_Player.client.SendMessage(m, SendMode.Reliable);

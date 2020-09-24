@@ -47,7 +47,8 @@ namespace UDRMS_Server_Plugin
         }
         private void ClientManager_ClientDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
-            
+            players.Remove(e.Client);
+            //TODO: Find Player on Match and Remove
         }
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
