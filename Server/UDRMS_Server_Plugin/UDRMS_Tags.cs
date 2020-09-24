@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UDRMS_Server_Plugin
 {
-    public static class UDRMS_Tags
+    internal static class UDRMS_Tags
     {
         public static readonly ushort connectedToMS = 0;
 

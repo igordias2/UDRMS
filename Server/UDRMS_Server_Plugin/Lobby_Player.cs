@@ -7,7 +7,7 @@ using DarkRift.Server;
 
 namespace UDRMS_Server_Plugin
 {
-    public class Lobby_Player
+    internal class Lobby_Player
     {
         public IClient client;
 

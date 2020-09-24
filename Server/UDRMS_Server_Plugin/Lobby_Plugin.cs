@@ -9,7 +9,7 @@ using DarkRift.Server;
 
 namespace UDRMS_Server_Plugin
 {
-    public class Lobby_Plugin : Plugin
+    internal class Lobby_Plugin : Plugin
     {
         public static Lobby_Plugin lobbyPluginInstance;
 

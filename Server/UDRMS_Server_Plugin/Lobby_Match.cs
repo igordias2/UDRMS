@@ -6,7 +6,7 @@ using DarkRift;
 
 namespace UDRMS_Server_Plugin
 {
-    public class Lobby_Match
+    internal class Lobby_Match
     {
         public ushort matchID;
         public ushort maxPlayersInMatch;
@@ -27,7 +27,7 @@ namespace UDRMS_Server_Plugin
             if (matchPlayers.Count >= maxPlayersInMatch)
                 return false;
             else
-                matchPlayers.Add(playerToAdd);
+                matchPlayers.Add(playerToAdd, false);
 
             playerToAdd.AssignMatch(this);
             return true;
