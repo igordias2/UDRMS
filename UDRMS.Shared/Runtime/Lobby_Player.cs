@@ -12,7 +12,11 @@ namespace UDRMS.Shared
         public IClient client;
         public string playerName;
         Lobby_Match currentMatch;
-        
+
+        public Lobby_Player()
+        {
+            //this.client = client;
+        }
         public Lobby_Player(IClient client)
         {
             this.client = client;

@@ -71,7 +71,7 @@ namespace Server
                 return;
             }
 
-            //spawnData.PluginSearch.PluginTypes.Add(typeof(.Lobby_Plugin));
+            spawnData.PluginSearch.PluginTypes.Add(typeof(UDRMS.PluginServer.Lobby_Plugin));
 
             //spawnData.Cache.MaxCachedMessages = 1600;
             //////Console.WriteLine(spawnData.Cache.MaxCachedMessages);

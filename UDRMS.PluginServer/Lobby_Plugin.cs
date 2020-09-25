@@ -14,7 +14,7 @@ using UDRMS.Shared;
 
 namespace UDRMS.PluginServer
 {
-    internal class Lobby_Plugin : Plugin
+    public class Lobby_Plugin : Plugin
     {
         public static Lobby_Plugin lobbyPluginInstance;
 

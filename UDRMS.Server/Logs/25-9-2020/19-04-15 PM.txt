@@ -1,0 +1,10 @@
+[Trace]   DarkRiftServer        System Details:
+                                	OS: Unix 19.3.0.0
+                                	CLS Version: 3.1.2
+                                	DarkRift: 2.7.0.0 - Free
+[Trace]   pluginFactory         Created plugin 'Lobby_Plugin'.
+[Info]    PluginManager         Upgraded plugin Lobby_Plugin version 1.0.0 from version 2.0.0
+[Trace]   pluginFactory         Created plugin 'BichannelListener'.
+[Trace]   HttpHealthCheck       HTTP health check started at 'http://localhost:10666/health'
+[Trace]   DefaultNetworkListener Starting bichannel listener.
+[Info]    DefaultNetworkListener Server mounted, listening on port 4296.

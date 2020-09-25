@@ -112,6 +112,8 @@ namespace UDRMS.Shared
                 using (Message mes = Message.Create(UDRMS_Tags.connectLobbyMatch, w))
                     playerToSend.client.SendMessage(mes, SendMode.Reliable);
             }
+            
+           
         }
 
 
