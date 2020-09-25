@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 using DarkRift;
 
-namespace UDRMS_Server_Plugin
+namespace UDRMS.Shared
 {
     //TODO: Remove from Current Match
-    internal class Lobby_Match
+    public class Lobby_Match : IDarkRiftSerializable
     {
         public ushort matchID;
         public ushort maxPlayersInMatch;
@@ -97,7 +97,7 @@ namespace UDRMS_Server_Plugin
                 {
                     
                     w.Write(item.client.ID);            //ID do Player
-                    w.Write(item)
+                    //w.Write(item)
                     w.Write(match.matchPlayers[item]);  //Status (Ready)
                 }
                 using (Message m = Message.Create(UDRMS_Tags.getLobbyMatchInfo, w))
@@ -112,6 +112,16 @@ namespace UDRMS_Server_Plugin
                 using (Message mes = Message.Create(UDRMS_Tags.connectLobbyMatch, w))
                     playerToSend.client.SendMessage(mes, SendMode.Reliable);
             }
+        }
+
+
+        public void Serialize(SerializeEvent w){
+            w.Writer.Write(this.matchID);
+            w.Writer.Write(this.matchOwner.client.ID);
+            w.Writer.Write((ushort)this.matchPlayers.Count);
+        } 
+        public void Deserialize(DeserializeEvent e){
+
         }
     }
 }

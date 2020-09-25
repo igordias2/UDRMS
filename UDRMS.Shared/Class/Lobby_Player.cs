@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using DarkRift.Server;
 
-namespace UDRMS_Server_Plugin
+namespace UDRMS.Shared
 {
-    internal class Lobby_Player
+    public class Lobby_Player
     {
         public IClient client;
         public string playerName;

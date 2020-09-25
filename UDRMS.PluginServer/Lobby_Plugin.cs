@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using DarkRift;
 using DarkRift.Server;
 
+using UDRMS.Shared;
+
 //TODO: Client Disconnection
 //TODO: Client Connection -> Login / Password
 
-
-namespace UDRMS_Server_Plugin
+namespace UDRMS.PluginServer
 {
     internal class Lobby_Plugin : Plugin
     {
@@ -23,7 +24,7 @@ namespace UDRMS_Server_Plugin
         ushort matchsCount = 0;
         ushort maxPlayersPerMatch = 9;
 
-        ushort matchsPerPageToSendToPlayer = 10;
+        ushort matchsPerPageToSendToPlayer = 5;
 
         public override Version Version => new Version(1, 0, 0);
         public override bool ThreadSafe => true;
@@ -111,6 +112,8 @@ namespace UDRMS_Server_Plugin
         private void GetLobbyRequestAndSend(MessageReceivedEventArgs e, DarkRiftReader r)
         {
             ushort page = r.ReadUInt16();
+            if(page == 0)
+                page = 1;
             List<Lobby_Match> m = GetLobbysPerPage(page);
             if (m.Count == 0)
             {
@@ -123,9 +126,10 @@ namespace UDRMS_Server_Plugin
             {
                 foreach (Lobby_Match match in m)
                 {
-                    w.Write(match.matchID);
-                    w.Write(match.matchOwner.client.ID);
-                    w.Write((ushort)match.matchPlayers.Count);
+                    w.Write(match);
+                    // w.Write(match.matchID);
+                    // w.Write(match.matchOwner.client.ID);
+                    // w.Write((ushort)match.matchPlayers.Count);
                 }
                 using (Message mes = Message.Create(UDRMS_Tags.getLobbyMatchs, w))
                     e.Client.SendMessage(mes, SendMode.Reliable);
@@ -157,6 +161,7 @@ namespace UDRMS_Server_Plugin
         public List<Lobby_Match> GetLobbysPerPage(ushort page)
         {
             ushort pages = GetLobbyPages();
+
             if (pages < page)
                 page = pages;
 

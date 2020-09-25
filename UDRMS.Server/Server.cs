@@ -8,7 +8,7 @@ using System.Threading;
 using DarkRift;
 using DarkRift.Server;
 
-using UDRMS_Server_Plugin;
+using UDRMS.PluginServer;
 
 namespace Server
 {
@@ -71,7 +71,7 @@ namespace Server
                 return;
             }
 
-            spawnData.PluginSearch.PluginTypes.Add(typeof(UDRMS_Server_Plugin.Lobby_Plugin));
+            //spawnData.PluginSearch.PluginTypes.Add(typeof(.Lobby_Plugin));
 
             //spawnData.Cache.MaxCachedMessages = 1600;
             //////Console.WriteLine(spawnData.Cache.MaxCachedMessages);
