@@ -14,7 +14,9 @@ namespace UDRMS.Shared
         public Lobby_Player matchOwner;
 
         public Dictionary<Lobby_Player, bool> matchPlayers = new Dictionary<Lobby_Player, bool>(); 
-
+        public Lobby_Match(){
+            
+        }
         public Lobby_Match(ushort matchID, ushort maxPlayersInMatch, Lobby_Player matchOwner)
         {
             this.matchID = matchID;
@@ -95,7 +97,6 @@ namespace UDRMS.Shared
             {
                 foreach (var item in match.matchPlayers.Keys)
                 {
-                    
                     w.Write(item.client.ID);            //ID do Player
                     //w.Write(item)
                     w.Write(match.matchPlayers[item]);  //Status (Ready)
@@ -121,9 +122,13 @@ namespace UDRMS.Shared
             w.Writer.Write(this.matchID);
             w.Writer.Write(this.matchOwner.client.ID);
             w.Writer.Write((ushort)this.matchPlayers.Count);
-        } 
+            w.Writer.Write(this.maxPlayersInMatch);
+        }
         public void Deserialize(DeserializeEvent e){
-
+            this.matchID = e.Reader.ReadUInt16();
+            ushort matchOwnerID = e.Reader.ReadUInt16();
+            ushort actualPlayers = e.Reader.ReadUInt16();
+            this.maxPlayersInMatch = e.Reader.ReadUInt16();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace UDRMS.PluginServer
         Dictionary<ushort, Lobby_Match> matchs = new Dictionary<ushort, Lobby_Match>();
 
         ushort matchsCount = 0;
-        ushort maxPlayersPerMatch = 9;
+        ushort maxPlayersPerMatch = 8;
 
         ushort matchsPerPageToSendToPlayer = 5;
 
@@ -102,8 +102,24 @@ namespace UDRMS.PluginServer
                         }
                         else
                         {
-                            //TODO: Send Player to Lobby
+                            //TODO: Send Player to Lobby or Do Nothing or Send Refresh
                         }
+                    }
+                    if (message.Tag == UDRMS_Tags.LoginInfo)
+                    {
+                        string playerName = r.ReadString();
+                        players[e.Client].playerName = playerName;
+
+                        //TODO: Can Login
+                        bool canLogin = true;
+                        using (DarkRiftWriter w = DarkRiftWriter.Create())
+                        {
+                            w.Write(canLogin);
+                            using (Message m = Message.Create(UDRMS_Tags.LoginInfo, w))
+                                e.Client.SendMessage(m, SendMode.Reliable);
+                        }
+                        
+
                     }
                 }
             }

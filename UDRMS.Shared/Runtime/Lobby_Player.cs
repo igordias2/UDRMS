@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DarkRift;
 using DarkRift.Server;
 
 namespace UDRMS.Shared
 {
-    public class Lobby_Player
+    public class Lobby_Player : IDarkRiftSerializable
     {
         public IClient client;
         public string playerName;
         Lobby_Match currentMatch;
-
-        public Lobby_Player()
-        {
-            //this.client = client;
-        }
+        
         public Lobby_Player(IClient client)
         {
             this.client = client;
@@ -33,5 +30,12 @@ namespace UDRMS.Shared
         {
             return currentMatch;
         }
+        public void Serialize(SerializeEvent e){
+            e.Writer.Write(playerName);
+        }
+        public void Deserialize(DeserializeEvent e){
+            this.playerName = e.Reader.ReadString();
+        }
+
     }
 }
