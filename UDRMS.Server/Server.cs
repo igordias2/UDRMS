@@ -87,16 +87,6 @@ namespace Server
             //////Console.WriteLine(spawnData.Cache.MaxCachedSocketAsyncEventArgs);
 
             server = new DarkRiftServer(spawnData);
-            IMongoClient client = new MongoClient("mongodb+srv://igordias:igordias10@cluster0.8xdxg.mongodb.net/UDRMS?authSource=admin&replicaSet=atlas-won9z4-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true");
-            IMongoDatabase database = client.GetDatabase("UDRMS");
-
-
-            IMongoCollection<UDRMS.Shared.Lobby_Player> colPlayers = database.GetCollection<UDRMS.Shared.Lobby_Player>("users");
-            foreach (var item in colPlayers.Find(x => x.playerName != "").ToList())
-            {
-                Console.WriteLine(item.playerName);
-            };
-            //Console.WriteLine(colPlayers);
 
 
             //spawnData.Server.MaxStrikes

@@ -4,11 +4,17 @@ using System.Collections.Generic;
 
 using DarkRift;
 
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+
 namespace UDRMS.Shared
 {
     //TODO: Remove from Current Match
     public class Lobby_Match : IDarkRiftSerializable
     {
+        [BsonId()]
+        public ObjectId Id { get; set; }
         public ushort matchID;
         public ushort maxPlayersInMatch;
         public bool removeMatchOnOwnerExit;
@@ -25,6 +31,9 @@ namespace UDRMS.Shared
             this.matchOwner = matchOwner;
 
             this.removeMatchOnOwnerExit = removeMatchOnOwnerExit;
+
+
+            
 
             this.AddPlayerToMatch(matchOwner);
         }

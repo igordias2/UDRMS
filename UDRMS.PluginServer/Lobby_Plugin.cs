@@ -8,6 +8,8 @@ using DarkRift;
 using DarkRift.Server;
 
 using UDRMS.Shared;
+using MongoDB.Driver;
+
 
 //TODO: Client Disconnection
 //TODO: Client Connection -> Login / Password
@@ -23,13 +25,19 @@ namespace UDRMS.PluginServer
         Lobby_Configuration configuration;
         public override Version Version => new Version(1, 0, 0);
         public override bool ThreadSafe => true;
+        
 
-
+        public IMongoClient client;
+        public IMongoDatabase database;
+        
         public Lobby_Plugin(PluginLoadData pluginLoadData) : base(pluginLoadData)
         {
             lobbyPluginInstance = this;
             ClientManager.ClientConnected += ClientConnected;
             ClientManager.ClientDisconnected += ClientManager_ClientDisconnected;
+
+            client = new MongoClient("mongodb+srv://igordias:SEMSENHA@cluster0.8xdxg.mongodb.net/UDRMS?authSource=admin&replicaSet=atlas-won9z4-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true");
+            database = client.GetDatabase("UDRMS");
         }
         private void ClientConnected(object sender, ClientConnectedEventArgs e)
         {
