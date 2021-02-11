@@ -11,17 +11,21 @@ namespace UDRMS.Shared
     {
         public ushort matchID;
         public ushort maxPlayersInMatch;
+        public bool removeMatchOnOwnerExit;
         public Lobby_Player matchOwner;
+        public Dictionary<Lobby_Player, bool> matchPlayers = new Dictionary<Lobby_Player, bool>();
 
-        public Dictionary<Lobby_Player, bool> matchPlayers = new Dictionary<Lobby_Player, bool>(); 
         public Lobby_Match(){
             
         }
-        public Lobby_Match(ushort matchID, ushort maxPlayersInMatch, Lobby_Player matchOwner)
+        public Lobby_Match(ushort matchID, ushort maxPlayersInMatch, Lobby_Player matchOwner, bool removeMatchOnOwnerExit)
         {
             this.matchID = matchID;
             this.maxPlayersInMatch = maxPlayersInMatch;
             this.matchOwner = matchOwner;
+
+            this.removeMatchOnOwnerExit = removeMatchOnOwnerExit;
+
             this.AddPlayerToMatch(matchOwner);
         }
 
@@ -43,12 +47,15 @@ namespace UDRMS.Shared
 
             if(matchOwner == playerToRemove)
             {
+                
                 //TODO: Destroy Match or Change Owner
             }
+
+
             if (matchPlayers.Count <= 0)
             {
                 //TODO: Destroy Match
-            }
+            } 
 
         }
 

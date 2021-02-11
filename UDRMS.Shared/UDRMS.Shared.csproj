@@ -10,5 +10,6 @@
         <Reference Include="DarkRift.Server">
       <HintPath>../UDRMS.Server/Lib/DarkRift.Server.dll</HintPath>
     </Reference>
+    <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
   </ItemGroup>
 </Project>

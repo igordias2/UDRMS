@@ -20,12 +20,7 @@ namespace UDRMS.PluginServer
 
         Dictionary<IClient, Lobby_Player> players = new Dictionary<IClient, Lobby_Player>();
         Dictionary<ushort, Lobby_Match> matchs = new Dictionary<ushort, Lobby_Match>();
-
-        ushort matchsCount = 0;
-        ushort maxPlayersPerMatch = 8;
-
-        ushort matchsPerPageToSendToPlayer = 5;
-
+        Lobby_Configuration configuration;
         public override Version Version => new Version(1, 0, 0);
         public override bool ThreadSafe => true;
 
@@ -79,7 +74,7 @@ namespace UDRMS.PluginServer
                                 return;
                             }
                         }
-                        CreateMatch(players[e.Client], maxPlayersPerMatch);
+                        CreateMatch(players[e.Client], configuration.maxPlayersPerMatch);
                     }
                     if (message.Tag == UDRMS_Tags.refreshLobbyMatchs)
                     {
@@ -108,6 +103,8 @@ namespace UDRMS.PluginServer
                     if (message.Tag == UDRMS_Tags.LoginInfo)
                     {
                         string playerName = r.ReadString();
+                        
+                        //TODO: change to MongoDB Implementation
                         players[e.Client].playerName = playerName;
 
                         //TODO: Can Login
@@ -124,7 +121,6 @@ namespace UDRMS.PluginServer
                 }
             }
         }
-
         private void GetLobbyRequestAndSend(MessageReceivedEventArgs e, DarkRiftReader r)
         {
             ushort page = r.ReadUInt16();
@@ -164,15 +160,20 @@ namespace UDRMS.PluginServer
 
         void CreateMatch(Lobby_Player matchOwner, ushort maxPlayersInMatch)
         {
-            matchsCount++;
-            if (matchs.ContainsKey(matchsCount))
-                matchsCount++;
+            configuration.matchsCount++;
+            if (matchs.ContainsKey(configuration.matchsCount))
+                configuration.matchsCount++;
 
-            Lobby_Match match = new Lobby_Match(matchsCount, maxPlayersInMatch, matchOwner);
+            Lobby_Match match = new Lobby_Match(configuration.matchsCount, maxPlayersInMatch, matchOwner, configuration.removeMatchOnOwnerExit);
 
             match.JoinMatch(matchOwner.client, true);
 
-            matchs.Add(matchsCount, match);
+            matchs.Add(configuration.matchsCount, match);
+        }
+        void RemoveMatch(ushort matchIDToRemove, ushort matchResult){
+           Lobby_Match match = matchs[matchIDToRemove];
+
+            
         }
         public List<Lobby_Match> GetLobbysPerPage(ushort page)
         {
@@ -183,12 +184,12 @@ namespace UDRMS.PluginServer
 
             List<Lobby_Match> m = new List<Lobby_Match>();
 
-            int numbersOfLobbys = matchsPerPageToSendToPlayer + (matchsPerPageToSendToPlayer * page);
+            int numbersOfLobbys = configuration.matchsPerPageToSendToPlayer + (configuration.matchsPerPageToSendToPlayer * page);
 
             if (numbersOfLobbys > pages)
                 numbersOfLobbys = pages;
 
-            for (int i = 1 * (matchsPerPageToSendToPlayer * page); i < numbersOfLobbys; i++)
+            for (int i = 1 * (configuration.matchsPerPageToSendToPlayer * page); i < numbersOfLobbys; i++)
             {
                 m.Add(matchs.Values.ElementAt(i));
             }
@@ -196,7 +197,22 @@ namespace UDRMS.PluginServer
         }
         ushort GetLobbyPages()
         {
-            return (ushort)(matchs.Count / matchsPerPageToSendToPlayer);
+            return (ushort)(matchs.Count / configuration.matchsPerPageToSendToPlayer);
+        }
+    }
+    public class Lobby_Configuration{
+        public ushort matchsCount = 0;
+        public ushort maxPlayersPerMatch = 8;
+        public ushort matchsPerPageToSendToPlayer = 5;
+        public bool removeMatchOnOwnerExit = true;
+
+        public Lobby_Configuration(){
+
+        }
+        public Lobby_Configuration(ushort matchsCount = 0, ushort maxPlayersPerMatch = 8, ushort matchsPerPageToSendToPlayer = 5){
+            this.matchsCount = matchsCount;
+            this.maxPlayersPerMatch = maxPlayersPerMatch;
+            this.matchsPerPageToSendToPlayer = matchsPerPageToSendToPlayer;
         }
     }
 }
