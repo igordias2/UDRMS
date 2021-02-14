@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Plugins\Chat\Chat.csproj" />
+    <ProjectReference Include="..\Plugins\Database\Database.csproj" />
+    <ProjectReference Include="..\Plugins\Login\Login.csproj" />
+    <ProjectReference Include="..\Plugins\MongoDbConnector\MongoDbConnector.csproj" />
+    <ProjectReference Include="..\Plugins\Rooms\Rooms.csproj" />
+    <!--<ProjectReference Include="..\UDRMS.PluginServer\UDRMS.PluginServer.csproj" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DarkRift">
+      <HintPath>..\DarkRift\Lib\DarkRift.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="DarkRift.Server">
+      <HintPath>..\DarkRift\Lib\DarkRift.Server.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Plugins\PrivateKey.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PrivateKey.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Server.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
